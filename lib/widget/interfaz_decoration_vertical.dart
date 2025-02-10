@@ -1,6 +1,8 @@
 // Importaciones necesarias
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:globo/screen.dart';
 
 /*Este código define un widget personalizado llamado CustomImagenVertical que muestra una 
 imagen, texto y calificación verticalmente. 
@@ -33,60 +35,75 @@ class CustomImagenVertical extends StatefulWidget {
 class _CustomImagenVerticalState extends State<CustomImagenVertical> {
   @override
   Widget build(BuildContext context) {
-    const double ancho = 110;
-    const double alto = 95;
+    const double ancho = 100;
+    const double alto = 140;
+    double title = 16;
+    double subtitle = 15;
+    final textStyle = TextTheme.of(context).titleLarge!.copyWith(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        );
     return InkWell(
       onTap: widget.onPressed,
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        elevation: 4,
-        margin: const EdgeInsets.only(left: 15, right: 22, top: 10, bottom: 10),
-        child: Container(
-          height: 75,
-          color: const Color.fromARGB(255, 231, 231, 231),
-          child: Row(
-            children: [
-              (widget.url != null && widget.url!.isNotEmpty)
-                  ? _ImagenUrl(widget: widget)
-                  : Expanded(
-                      flex: 1,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                        child: Image.asset(
-                          'assets/IconoColor.png', // Icono de la app predeterminado
-                          width: 300,
-                          height: 300,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10), // Ajuste del padding horizontal
-                  child: Align(
-                    alignment: Alignment.centerLeft, // Centra el texto verticalmente
-                    child: Text(
-                      widget.text,
-                      style: const TextStyle(
-                        fontFamily: "Heiti TC",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black,
-                      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            (widget.url != null && widget.url!.isNotEmpty)
+                ? _ImagenUrl(widget: widget)
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset(
+                      'assets/IconoColor.png', // Icono de la app predeterminado
+                      width: ancho,
+                      height: alto,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
+            SizedBox(
+              width: 20,
+            ),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.text,
+                    style: textStyle,
+                  ),
+                  // Subir texto del nombre
+                  ListTile(
+                    minVerticalPadding: 25,
+                    contentPadding: EdgeInsets.only(right: 25),
+                    title: Text(
+                      'Número de Teléfono',
+                      style: TextStyle(fontSize: title),
+                    ),
+                    subtitle: Text(
+                      "321 106 02 19",
+                      style: TextStyle(fontSize: subtitle),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+Widget _buildListTile({
+  required Widget title,
+  required Widget subtitle,
+  VoidCallback? onTap,
+}) {
+  return ListTile(
+    title: title,
+    subtitle: subtitle,
+    onTap: onTap,
+  );
 }
 
 class _ImagenUrl extends StatelessWidget {
@@ -98,47 +115,41 @@ class _ImagenUrl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double ancho = 110;
-    const double alto = 75;
-    return Expanded(
-      flex: 1,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
-        ),
-        child: Image.network(
-          widget.url!,
-          width: ancho,
-          height: alto,
-          fit: BoxFit.cover,
-          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+    const double ancho = 100;
+    const double alto = 140;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(30),
+      child: Image.network(
+        widget.url!,
+        width: ancho,
+        height: alto,
+        fit: BoxFit.cover,
+        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+          return child;
+        },
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) {
             return child;
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            } else {
-              return const SizedBox(
-                width: ancho,
-                height: alto,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black26,
-                    strokeAlign: BorderSide.strokeAlignInside,
-                  ),
-                ),
-              );
-            }
-          },
-          errorBuilder: (context, error, stackTrace) {
+          } else {
             return const SizedBox(
               width: ancho,
               height: alto,
-              child: Center(child: Text('Error de conexión')),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.black26,
+                  strokeAlign: BorderSide.strokeAlignInside,
+                ),
+              ),
             );
-          },
-        ),
+          }
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return const SizedBox(
+            width: ancho,
+            height: alto,
+            child: Center(child: Text('Error de conexión')),
+          );
+        },
       ),
     );
   }

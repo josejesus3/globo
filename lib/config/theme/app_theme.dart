@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 const Color _customColor = Color(0xFF5C11D4);
- List<Color> _colorThemes = [
+List<Color> _colorThemes = [
   Colors.white,
   Colors.black,
-
   Colors.blue,
   Colors.orange,
   Colors.green,
@@ -15,15 +14,14 @@ class AppTheme {
   final int selectColors;
 
   AppTheme({required this.selectColors})
-      : assert(selectColors >= 0 && selectColors <= _colorThemes.length, 'Index Color${_colorThemes.length}');
+      : assert(selectColors >= 0 && selectColors <= _colorThemes.length,
+            'Index Color${_colorThemes.length}');
   ThemeData theme() {
     return ThemeData(
-        useMaterial3: true, 
-        //Color de fondo gris oscuro
-        scaffoldBackgroundColor: Colors.grey[900],
-        colorSchemeSeed: _colorThemes[selectColors],
-        
-        
-        );
+      useMaterial3: true,
+      //Color de fondo gris oscuro
+
+      colorSchemeSeed: _colorThemes[selectColors],
+    );
   }
 }
