@@ -76,6 +76,38 @@ class _UnidadesEconomicasState extends State<UnidadesEconomicas>
         return true; // Permite que el pop suceda
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF202A53),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.arrow_back_outlined,
+            ),
+            color: Colors.white,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _favoriteRed = !_favoriteRed;
+                  _guardarFavorito(_favoriteRed);
+                  favoritosProvider.marcaFavoritos(widget.title);
+                });
+              },
+              icon: Icon(
+                _favoriteRed ? Icons.favorite : Icons.favorite_outline_sharp,
+                size: 30,
+                color: _favoriteRed
+                    ? Colors.red.shade600
+                    : widget.url != ''
+                        ? Colors.white
+                        : const Color.fromARGB(255, 255, 255, 255),
+              ),
+            ),
+          ],
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -106,20 +138,7 @@ class _UnidadesEconomicasState extends State<UnidadesEconomicas>
                               ],
                             ),
                           ),
-                    // Botón de retroceso
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pop(); // Regresar a la pantalla anterior (categorías)
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 35,
-                        color: widget.url != ''
-                            ? Colors.white
-                            : const Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 350),
                       child: Container(
@@ -201,30 +220,6 @@ class _UnidadesEconomicasState extends State<UnidadesEconomicas>
                       ),
                     ),
                     // Botón de favorito
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _favoriteRed = !_favoriteRed;
-                            _guardarFavorito(_favoriteRed);
-                            favoritosProvider.marcaFavoritos(widget.title);
-                          });
-                        },
-                        icon: Icon(
-                          _favoriteRed
-                              ? Icons.favorite
-                              : Icons.favorite_outline_sharp,
-                          size: 40,
-                          color: _favoriteRed
-                              ? Colors.red.shade600
-                              : widget.url != ''
-                                  ? Colors.white
-                                  : const Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ],

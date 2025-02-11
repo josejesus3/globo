@@ -111,6 +111,42 @@ class _UnidadesEconomicasState extends State<RegistroUnidadEconomica>
 
     // Estructura principal del widget
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF202A53),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Icons.arrow_back_outlined,
+          ),
+          color: Colors.white,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final XFile? image = await selectImage();
+              setState(() {
+                if (image == null) {
+                } else {
+                  setState(() {
+                    imagenUpload = File(image.path);
+                  });
+                }
+              });
+            },
+            icon: Icon(
+              Icons.add_photo_alternate_outlined,
+              size: 30,
+              color: widget.url != ''
+                  ? Colors.white
+                  : imagenUpload != null
+                      ? Colors.white
+                      : Colors.white,
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -126,7 +162,7 @@ class _UnidadesEconomicasState extends State<RegistroUnidadEconomica>
                           fit: BoxFit.fitWidth,
                         )
                       : Positioned(
-                          left: 10,
+                          left: 50,
                           top: 10,
                           child: Image.asset(
                             widget.imagen!,
@@ -143,30 +179,6 @@ class _UnidadesEconomicasState extends State<RegistroUnidadEconomica>
                           fit: BoxFit.cover,
                         )
                       : Container(),
-
-                  // Botón para volver atrás y título de la unidad económica
-                  // Botón para volver atrás y título de la unidad económica
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 35,
-                      color: widget.url != ''
-                          ? Colors.white
-                          : imagenUpload != null
-                              ? Colors.white
-                              : Colors.white,
-                      shadows: [
-                        Shadow(
-                          offset: const Offset(3.0, 3.0),
-                          blurRadius: 2.0,
-                          color: Colors.black.withOpacity(0.5),
-                        ),
-                      ],
-                    ),
-                  ),
 
                   // Espacio para la imagen
                   Padding(
@@ -381,32 +393,6 @@ class _UnidadesEconomicasState extends State<RegistroUnidadEconomica>
                         ),
                       ),
                     ),
-                  ),
-
-                  // Botón para seleccionar y cargar imágenes
-                  Positioned(
-                    right: 10,
-                    child: IconButton(
-                        onPressed: () async {
-                          final XFile? image = await selectImage();
-                          setState(() {
-                            if (image == null) {
-                            } else {
-                              setState(() {
-                                imagenUpload = File(image.path);
-                              });
-                            }
-                          });
-                        },
-                        icon: Icon(
-                          Icons.add_photo_alternate_outlined,
-                          size: 30,
-                          color: widget.url != ''
-                              ? Colors.white
-                              : imagenUpload != null
-                                  ? Colors.white
-                                  : Colors.white,
-                        )),
                   ),
                 ],
               ),

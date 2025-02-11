@@ -19,7 +19,8 @@ class _PrincipalState extends State<Principal> {
           context: context,
           builder: (context) => AlertDialog(
             title: const Text('¿Desea salir de la aplicación?'),
-            content: const Text('Presione "Salir" para salir de la aplicación'),
+            content:
+                const Text('Presione "Aceptar" para salir de la aplicación'),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(false),
@@ -28,7 +29,7 @@ class _PrincipalState extends State<Principal> {
               ElevatedButton(
                 onPressed: () =>
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
-                child: const Text('Salir'),
+                child: const Text('Aceptar'),
               ),
             ],
           ),
