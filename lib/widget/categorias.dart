@@ -162,46 +162,42 @@ class Categorias extends StatelessWidget {
           },
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
-            size: 30,
+            size: 25,
             color: Colors.white, // Cambia el color del ícono a blanco
           ),
         ),
       ),
-      body: Container(
-        color: const Color(0xFF1F1F1F), // Cambia el color de fondo del cuerpo
-        child: StreamBuilder(
-            stream: databaseReference.onValue,
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.data?.snapshot.value != snapshot) {
-                return FirebaseAnimatedList(
-                  query: databaseReference,
-                  itemBuilder: (context, snapshot, animation, index) {
-                    final String actividadComercial =
-                        snapshot.child('ActividadComercial').value.toString();
+      body: StreamBuilder(
+          stream: databaseReference.onValue,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data?.snapshot.value != snapshot) {
+              return FirebaseAnimatedList(
+                query: databaseReference,
+                itemBuilder: (context, snapshot, animation, index) {
+                  final String actividadComercial =
+                      snapshot.child('ActividadComercial').value.toString();
 
-                    // Verifica si la actividad comercial pertenece a la categoría seleccionada
-                    if (actividadesCorrespondientes.any((actividad) =>
-                        actividadComercial
-                            .toLowerCase()
-                            .contains(actividad.toLowerCase()))) {
-                      return CustomFirebaseList(snapshot: snapshot);
-                    } else {
-                      return Container();
-                    }
-                  },
-                );
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            }),
-      ),
+                  // Verifica si la actividad comercial pertenece a la categoría seleccionada
+                  if (actividadesCorrespondientes.any((actividad) =>
+                      actividadComercial
+                          .toLowerCase()
+                          .contains(actividad.toLowerCase()))) {
+                    return CustomFirebaseList(snapshot: snapshot);
+                  } else {
+                    return Container();
+                  }
+                },
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 }

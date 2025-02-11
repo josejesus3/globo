@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:globo/widget/custom_navigatorbar.dart';
 import '../../delegates/buscador_delegate.dart';
 import '../../widget/popup_menu.dart';
 import 'contenido.dart';
@@ -38,24 +39,25 @@ class _PrincipalState extends State<Principal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBarGrullo(context),
+      appBar: appBarGrullo(context),
       body: WillPopScope(
         onWillPop: onBackPressed,
         child: const SingleChildScrollView(
           child: Contenido(),
         ),
       ),
+      bottomNavigationBar: CostomBottonNavigatorBar(currentIndex: 0),
     );
   }
 }
 
-AppBar _appBarGrullo(BuildContext context) {
+AppBar appBarGrullo(BuildContext context) {
   return AppBar(
     automaticallyImplyLeading: false, // Mantiene el botón de "volver" oculto
     titleSpacing: 0, // Espaciado predeterminado
     backgroundColor: const Color(0xFF202A53), // Color sólido para el AppBar
 
-     title: ListTile(
+    title: ListTile(
       contentPadding: const EdgeInsets.symmetric(
           horizontal: 16), // Ajusta el espacio en torno al contenido
       title: Container(
@@ -76,7 +78,10 @@ AppBar _appBarGrullo(BuildContext context) {
             ),
             Text(
               'Buscar',
-              style: TextStyle(fontFamily: "Heiti TC", fontSize: 16, fontWeight: FontWeight.w300),
+              style: TextStyle(
+                  fontFamily: "Heiti TC",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300),
             ),
           ],
         ),
@@ -94,7 +99,7 @@ AppBar _appBarGrullo(BuildContext context) {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           //Que sea de color rojo
-          colors: [Color(0xFF202A53),Color(0xFF202A53)],
+          colors: [Color(0xFF202A53), Color(0xFF202A53)],
         ),
       ),
     ),
@@ -102,6 +107,4 @@ AppBar _appBarGrullo(BuildContext context) {
       PopupMenu(),
     ],
   );
-
-  
 }

@@ -60,19 +60,9 @@ class _ContenidoState extends State<Contenido> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          //const Padding(
-          //  padding:
-          //     EdgeInsets.only(top: 20, right: 180), // Reducido el padding
-          //child: Text(
-          //  'Categorías',
-          //  style: TextStyle(
-          //    fontFamily: "Heiti TC",
-          //    fontSize: 21,
-          //    fontWeight: FontWeight.w300,
-          //    color: Colors.white, // Cambia el color del texto a blanco
-          //  ),
-          //  ),
-          //),
+          SizedBox(
+            height: 20,
+          ),
           Padding(
             padding: const EdgeInsets.only(
                 left: 5, right: 5, bottom: 5), // Reducido el padding inferior
@@ -212,65 +202,6 @@ class _ContenidoState extends State<Contenido> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(
-                left: 15,
-                right: 15, // Ajusta el padding derecho para evitar el overflow
-                bottom: 5),
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    'Favoritos',
-                    style: TextStyle(
-                      fontFamily: "Heiti TC",
-                      fontSize: 21,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.white,
-                    ),
-                    overflow:
-                        TextOverflow.ellipsis, // Ajuste de texto si es largo
-                  ),
-                ),
-                SizedBox(width: 5),
-                Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                  size: 24,
-                ),
-              ],
-            ),
-          ),
-          unidadesFavoritas.isEmpty
-              ? const Center(
-                  child: Text(
-                    'Sin Favoritos',
-                    style: TextStyle(
-                      fontFamily: "Heiti TC",
-                      fontSize: 21,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.white, // Cambia el color del texto a blanco
-                    ),
-                  ),
-                )
-              : FirebaseAnimatedList(
-                  query: databaseReference,
-                  shrinkWrap:
-                      true, // Permite que la lista se ajuste a su contenido
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Deshabilita el scroll independiente
-                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                      Animation<double> animation, int index) {
-                    final String unidadEconomica =
-                        snapshot.child('NombreNegocio').value.toString();
-                    if (unidadesFavoritas.contains(unidadEconomica)) {
-                      _guardarUnidadesFavoritas(unidadesFavoritas);
-                      return CustomFirebaseList(snapshot: snapshot);
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
         ],
       ),
     );

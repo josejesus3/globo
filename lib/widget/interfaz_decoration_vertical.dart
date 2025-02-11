@@ -1,8 +1,6 @@
 // Importaciones necesarias
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:globo/screen.dart';
 
 /*Este código define un widget personalizado llamado CustomImagenVertical que muestra una 
 imagen, texto y calificación verticalmente. 
@@ -40,9 +38,7 @@ class _CustomImagenVerticalState extends State<CustomImagenVertical> {
     double title = 16;
     double subtitle = 15;
     final textStyle = TextTheme.of(context).titleLarge!.copyWith(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        );
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 19);
     return InkWell(
       onTap: widget.onPressed,
       child: Padding(

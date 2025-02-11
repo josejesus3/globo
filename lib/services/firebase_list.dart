@@ -41,10 +41,6 @@ class CustomFirebaseListState extends State<CustomFirebaseList> {
               facebook: widget.snapshot.child('Facebook').value.toString(),
               numeroWhatsApp:
                   widget.snapshot.child('WhatsApps').value.toString(),
-              //endLatitude: double.parse(
-              //    widget.snapshot.child('Latitud').value.toString()),
-              //endLongitude: double.parse(
-              //    widget.snapshot.child('Longitud').value.toString()),
             ),
           ),
         );
