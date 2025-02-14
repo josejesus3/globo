@@ -1,3 +1,4 @@
+import 'package:globo/Screens/Screens_View/registro_screen.dart';
 import 'package:globo/Screens/Screens_View/registro_unidad_economica.dart';
 import 'package:globo/login/login.dart';
 import 'package:globo/widget/interfaz_decoration_vertical.dart';
@@ -123,17 +124,17 @@ class _RegisterSearchDelegateState extends State<RegisterSearchDelegate> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => RegistroUnidadEconomica(
+              builder: (BuildContext context) => RegistroScreen(
                 contactKey: contact['key'],
-                imagen: 'assets/logo.png',
                 title: snapshot.child('NombreNegocio').value.toString(),
+                imagen: 'assets/logoBaner.png',
                 descripcion:
                     snapshot.child('DescripcionNegocio').value.toString(),
                 direccion: snapshot.child('Domicilio').value.toString(),
-                numeroTelefonico:
-                    snapshot.child('NumeroTelefonico').value.toString(),
                 horarioEntrada: snapshot.child('HoraApertura').value.toString(),
                 horarioSalida: snapshot.child('HoraCierre').value.toString(),
+                numeroTelefonico:
+                    snapshot.child('NumeroTelefonico').value.toString(),
                 url: snapshot.child('Url').value.toString(),
                 galeriaUrl: snapshot.child('GaleriaUrl').value.toString(),
                 instagram: snapshot.child('Instagram').value.toString(),
