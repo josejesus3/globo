@@ -197,8 +197,7 @@ class _RegistroScreenState extends State<RegistroScreen>
                 ),
 
                 // Para el contenido de contacto, también puedes agregar dimensiones:
-                Container(
-                  padding: EdgeInsets.all(16),
+                SingleChildScrollView(
                   child: RegistroContacto(
                     textFieldDireccion: _textFieldDireccion,
                     textFieldHorarioSalida: _textFieldhorarioSalida,

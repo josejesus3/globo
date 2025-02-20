@@ -1,4 +1,5 @@
 import 'package:globo/Screens/Screens_View/unidades_economicas.dart';
+import 'package:globo/Screens/Screens_View/unidades_screen.dart';
 import 'package:globo/widget/interfaz_decoration_vertical.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -24,7 +25,7 @@ class CustomFirebaseListState extends State<CustomFirebaseList> {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (BuildContext context) => UnidadesEconomicas(
+            builder: (BuildContext context) => UnidadesScreen(
               title: widget.snapshot.child('NombreNegocio').value.toString(),
               imagen: 'assets/logoBaner.png',
               descripcion:
