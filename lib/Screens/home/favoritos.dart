@@ -72,38 +72,38 @@ class _FavoritosState extends State<Favoritos> {
     return Scaffold(
       appBar: appBarGrullo(context),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            unidadesFavoritas.isEmpty
-                ? Center(
-                    child: Text('Sin Favoritos', style: textStyle),
-                  )
-                : FirebaseAnimatedList(
-                    query: databaseReference,
-                    shrinkWrap:
-                        true, // Permite que la lista se ajuste a su contenido
-                    physics:
-                        const NeverScrollableScrollPhysics(), // Deshabilita el scroll independiente
-                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                        Animation<double> animation, int index) {
-                      final String unidadEconomica =
-                          snapshot.child('NombreNegocio').value.toString();
-                      if (unidadesFavoritas.contains(unidadEconomica)) {
-                        return GestureDetector(
-                          onLongPress: () => _eliminarFavorito(
-                              unidadEconomica), // Eliminamos el favorito al mantener presionado
-                          child: CustomFirebaseList(snapshot: snapshot),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    },
-                  ),
-          ],
-        ),
+        child: unidadesFavoritas.isEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment
+                    .center, // Alinea horizontalmente en el centro
+                children: [
+                  SizedBox(
+                      height:
+                          100), // Da un pequeño margen desde el borde superior de la pantalla
+                  Text('Sin Favoritos'),
+                ],
+              )
+            : FirebaseAnimatedList(
+                query: databaseReference,
+                shrinkWrap:
+                    true, // Permite que la lista se ajuste a su contenido
+                physics:
+                    const NeverScrollableScrollPhysics(), // Deshabilita el scroll independiente
+                itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                    Animation<double> animation, int index) {
+                  final String unidadEconomica =
+                      snapshot.child('NombreNegocio').value.toString();
+                  if (unidadesFavoritas.contains(unidadEconomica)) {
+                    return GestureDetector(
+                      onLongPress: () => _eliminarFavorito(
+                          unidadEconomica), // Eliminamos el favorito al mantener presionado
+                      child: CustomFirebaseList(snapshot: snapshot),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
       ),
       bottomNavigationBar: CostomBottonNavigatorBar(currentIndex: 1),
     );

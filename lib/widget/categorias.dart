@@ -154,17 +154,12 @@ class Categorias extends StatelessWidget {
         centerTitle: true, // Centra el título
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) {
-                return const Principal();
-              }),
-            );
+            Navigator.of(context).pop();
           },
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            size: 25,
-            color: Colors.white, // Cambia el color del ícono a blanco
+          icon: Icon(
+            Icons.arrow_back_outlined,
           ),
+          color: Colors.white,
         ),
       ),
       body: StreamBuilder(
