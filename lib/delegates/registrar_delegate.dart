@@ -51,18 +51,12 @@ class _RegisterSearchDelegateState extends State<RegisterSearchDelegate> {
           backgroundColor: const Color(0xFF202A53), // Color del AppBar
           leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (BuildContext context) {
-                  return const Login();
-                }),
-              );
+              Navigator.of(context).pop();
             },
-            icon: const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 30,
-              color: Colors.white, // Cambia el color del icono a blanco
+            icon: Icon(
+              Icons.arrow_back_outlined,
             ),
+            color: Colors.white,
           ),
           title: Text(
             widget.textUsuario, // Aquí se imprime el nombre del usuario

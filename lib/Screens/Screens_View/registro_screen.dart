@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:globo/services/actualizar_registros.dart';
 import 'package:globo/services/select_image.dart';
 import 'package:globo/widget/tabbar_unidades_economicas.dart';
 import 'package:image_picker/image_picker.dart';
@@ -107,6 +108,56 @@ class _RegistroScreenState extends State<RegistroScreen>
           color: Colors.white,
         ),
         actions: [
+          IconButton(
+            color: Colors.orange.shade500,
+            onPressed: () {
+              setState(() {
+                url1 = widget.url;
+
+                if (imagenUpload != null) {
+                  // Si al menos una imagen está presente
+                  DatabaseOperations.actualizarApp(
+                    titulo: _textFieldTitulo.text,
+                    descripcion: _textFieldDescripcion.text,
+                    telefono: _textFieldTelefono.text,
+                    direccion: _textFieldDireccion.text,
+                    horarioEntrada: _textFieldhorarioEntrada.text,
+                    horarioSalida: _textFieldhorarioSalida.text,
+                    imagenUpload: imagenUpload!,
+                    contactKey: widget.contactKey,
+                    databaseReference: databaseReference,
+                    context: context,
+                    url: url1!,
+                    facebook: widget.facebook!,
+                    instagram: widget.instagram!,
+                    whatsapp: _textFieldWhatsApp.text,
+                  );
+                } else {
+                  // Si ninguna imagen está presente
+                  DatabaseOperations.actualizarAppSinImagen(
+                    titulo: _textFieldTitulo.text,
+                    descripcion: _textFieldDescripcion.text,
+                    telefono: _textFieldTelefono.text,
+                    direccion: _textFieldDireccion.text,
+                    horarioEntrada: _textFieldhorarioEntrada.text,
+                    horarioSalida: _textFieldhorarioSalida.text,
+                    contactKey: widget.contactKey,
+                    databaseReference: databaseReference,
+                    context: context,
+                    url: url1!,
+                    facebook: _textFieldFacebook.text,
+                    instagram: _textFieldInstagram.text,
+                    whatsapp: _textFieldWhatsApp.text,
+                  );
+                }
+              });
+            },
+            icon: const Icon(
+              Icons.edit_document,
+              size: 35,
+              color: Color.fromARGB(255, 228, 149, 52),
+            ),
+          ),
           IconButton(
             onPressed: () async {
               final XFile? image = await selectImage();

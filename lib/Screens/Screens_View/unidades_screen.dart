@@ -1,15 +1,14 @@
-import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:globo/Screens/Screens_View/galeria_carrusel.dart';
 import 'package:globo/providers/favoritos_provider.dart';
-import 'package:globo/services/select_image.dart';
+
 import 'package:globo/widget/fullscreen_view.dart';
 import 'package:globo/widget/tabbar_unidades_economicas.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UnidadesScreen extends StatefulWidget {
@@ -50,8 +49,6 @@ class UnidadesScreen extends StatefulWidget {
 class _RegistroScreenState extends State<UnidadesScreen>
     with TickerProviderStateMixin {
   bool _favoriteRed = false;
-  final bool _backboton = true;
-  final int _calculandoDistancia = 0;
   String distance = '';
   List<String> galeria = [];
   late FavoritosProvider favoritosProvider;
@@ -61,18 +58,18 @@ class _RegistroScreenState extends State<UnidadesScreen>
       FirebaseDatabase.instance.ref('UnidadesEconomicas');
 
   @override
-  void initState() {
+  initState() {
     super.initState();
-
-    galeria.addAll((widget.galeriaUrl ?? '')
-        .replaceAll('[', '')
-        .replaceAll(']', '')
-        .split(','));
-    // Establecer los valores iniciales de los controladores de texto
+    favoritosProvider = context.read<FavoritosProvider>();
+    _cargarFavorito();
   }
 
   @override
   Widget build(BuildContext context) {
+    galeria.addAll((widget.galeriaUrl ?? '')
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .split(','));
     TabController tabController = TabController(length: 3, vsync: this);
     final textStyle = TextTheme.of(context)
         .titleLarge!
@@ -104,7 +101,7 @@ class _RegistroScreenState extends State<UnidadesScreen>
             },
             icon: Icon(
               _favoriteRed ? Icons.favorite : Icons.favorite_outline_sharp,
-              size: 30,
+              size: 28,
               color: _favoriteRed
                   ? Colors.red.shade600
                   : widget.url != ''
@@ -122,20 +119,25 @@ class _RegistroScreenState extends State<UnidadesScreen>
             imagen: widget.imagen!,
           ),
           SliverToBoxAdapter(
-            child: TabBar(
-              controller: tabController,
-              tabs: [
-                Tab(icon: Icon(Icons.description_outlined)),
-                Tab(icon: Icon(Icons.photo_outlined)),
-                Tab(icon: Icon(Icons.contact_phone_outlined)),
-              ],
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: Colors.blue,
+            child: Container(
+              margin: EdgeInsets.only(top: 10),
+              color: Colors.white,
+              child: TabBar(
+                controller: tabController,
+                tabs: [
+                  Tab(icon: Icon(Icons.description_outlined)),
+                  Tab(icon: Icon(Icons.photo_outlined)),
+                  Tab(icon: Icon(Icons.contact_phone_outlined)),
+                ],
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.blue,
+              ),
             ),
           ),
           SliverFillRemaining(
-              child: Expanded(
+              child: Container(
+            color: Colors.white,
             child: TabBarView(
               controller: tabController,
               children: [
@@ -220,7 +222,7 @@ class _CustomSliverAppBarState extends State<_CustomSliverAppBar> {
       leading: Container(),
       backgroundColor: Colors.black,
       expandedHeight:
-          sized.height * 0.48, // Ajusta la altura según sea necesario
+          sized.height * 0.45, // Ajusta la altura según sea necesario
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(

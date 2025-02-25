@@ -21,7 +21,7 @@ class DescripcionTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Text(
         descripcion,
         style: const TextStyle(fontSize: 17.0),
@@ -80,11 +80,10 @@ class GaleriaImagen extends StatefulWidget {
 
 List<File> imagenes = [];
 
-
 class _GaleriaImagenState extends State<GaleriaImagen> {
   @override
   Widget build(BuildContext context) {
-    int cantidad=imagenes.length+widget.galeriaUrl!.length;
+    int cantidad = imagenes.length + widget.galeriaUrl!.length;
 
     return WillPopScope(
       onWillPop: () async {
@@ -106,24 +105,21 @@ class _GaleriaImagenState extends State<GaleriaImagen> {
         ),
         body: Column(
           children: [
-            cantidad==3
-            ?const Text('Limites alcanzado')
-            :ElevatedButton(
-              onPressed: () async {
-                final XFile? image = await selectImage();
-                if (image != null) {
-                  setState(() {
-                    
-                    imagenes.add(File(image.path));
-                   
-                    // También podrías agregar la imagen a widget.galeriaUrl si lo necesitas
-                  });
-                } 
-                
-              },
-              child:
-              const Text('Agregar imagenes'),
-            ),
+            cantidad == 3
+                ? const Text('Limites alcanzado')
+                : ElevatedButton(
+                    onPressed: () async {
+                      final XFile? image = await selectImage();
+                      if (image != null) {
+                        setState(() {
+                          imagenes.add(File(image.path));
+
+                          // También podrías agregar la imagen a widget.galeriaUrl si lo necesitas
+                        });
+                      }
+                    },
+                    child: const Text('Agregar imagenes'),
+                  ),
             Expanded(
               child: ListView.builder(
                 padding:
@@ -445,7 +441,7 @@ class ContactoWidget extends StatelessWidget {
                   : Container(),
               numeroWhatsApp != ''
                   ? IconButton(
-                      iconSize: 50,
+                      iconSize: 35,
                       onPressed: () {
                         launchUrlString('https://wa.me/52$numeroWhatsApp');
                       },

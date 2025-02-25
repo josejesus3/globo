@@ -67,8 +67,9 @@ class _FavoritosState extends State<Favoritos> {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = TextTheme.of(context).titleLarge!.copyWith(
-        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 19);
+    final textStyle = TextTheme.of(context)
+        .titleLarge!
+        .copyWith(color: Colors.black, fontSize: 19);
     return Scaffold(
       appBar: appBarGrullo(context),
       body: SingleChildScrollView(
@@ -80,7 +81,11 @@ class _FavoritosState extends State<Favoritos> {
                   SizedBox(
                       height:
                           100), // Da un pequeño margen desde el borde superior de la pantalla
-                  Text('Sin Favoritos'),
+                  Center(
+                      child: Text(
+                    'Sin Favoritos',
+                    style: textStyle,
+                  )),
                 ],
               )
             : FirebaseAnimatedList(

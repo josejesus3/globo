@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: AppTheme(selectColors: 3).theme(),
+        theme: AppTheme(selectColors: 1).theme(),
         title: 'El Globo',
         home: const FondoPantalla());
   }
