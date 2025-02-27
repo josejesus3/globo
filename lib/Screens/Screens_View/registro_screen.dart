@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:globo/providers/new_titulo.dart';
 import 'package:globo/services/actualizar_registros.dart';
 import 'package:globo/services/select_image.dart';
 import 'package:globo/widget/tabbar_unidades_economicas.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class RegistroScreen extends StatefulWidget {
   final String title;
@@ -72,10 +73,11 @@ class _RegistroScreenState extends State<RegistroScreen>
 
   List<String> galeria = [];
   // Inicialización del estado del widget
+  String updatedTitle = '';
   @override
   void initState() {
     super.initState();
-
+    String updatedTitle = widget.title;
     galeria.addAll((widget.galeriaUrl ?? '')
         .replaceAll('[', '')
         .replaceAll(']', '')
@@ -92,8 +94,15 @@ class _RegistroScreenState extends State<RegistroScreen>
     _textFieldWhatsApp.text = widget.whatsApp!;
   }
 
+  void updateTitle(String newTitle) {
+    setState(() {
+      updatedTitle = newTitle;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    NewTitulo newTitulo = context.read<NewTitulo>();
     TabController tabController = TabController(length: 3, vsync: this);
     return Scaffold(
       appBar: AppBar(
@@ -113,6 +122,7 @@ class _RegistroScreenState extends State<RegistroScreen>
             onPressed: () {
               setState(() {
                 url1 = widget.url;
+                _textFieldTitulo.text = newTitulo.titulo!;
 
                 if (imagenUpload != null) {
                   // Si al menos una imagen está presente
@@ -132,6 +142,7 @@ class _RegistroScreenState extends State<RegistroScreen>
                     instagram: widget.instagram!,
                     whatsapp: _textFieldWhatsApp.text,
                   );
+                  print(_textFieldTitulo.text);
                 } else {
                   // Si ninguna imagen está presente
                   DatabaseOperations.actualizarAppSinImagen(
@@ -149,6 +160,7 @@ class _RegistroScreenState extends State<RegistroScreen>
                     instagram: _textFieldInstagram.text,
                     whatsapp: _textFieldWhatsApp.text,
                   );
+                  print(_textFieldTitulo.text);
                 }
               });
             },
@@ -190,6 +202,7 @@ class _RegistroScreenState extends State<RegistroScreen>
             title: widget.title,
             imagen: widget.imagen!,
             imagenUpload: imagenUpload,
+            onTitleChanged: updateTitle,
           ),
           SliverToBoxAdapter(
             child: TabBar(
@@ -273,13 +286,15 @@ class _CustomSliverAppBar extends StatefulWidget {
   final String title;
   final String imagen;
   final File? imagenUpload;
+  final ValueChanged<String> onTitleChanged;
 
   const _CustomSliverAppBar(
       {super.key,
       required this.url,
       required this.title,
       required this.imagen,
-      this.imagenUpload});
+      this.imagenUpload,
+      required this.onTitleChanged});
 
   @override
   State<_CustomSliverAppBar> createState() => _CustomSliverAppBarState();
@@ -290,6 +305,7 @@ DatabaseReference databaseReference =
 
 class _CustomSliverAppBarState extends State<_CustomSliverAppBar> {
   final TextEditingController _textFieldTitulo = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -299,6 +315,7 @@ class _CustomSliverAppBarState extends State<_CustomSliverAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    NewTitulo newTitulo = context.read<NewTitulo>();
     final sized = MediaQuery.of(context).size;
     return SliverAppBar(
       leading: Container(),
@@ -315,6 +332,11 @@ class _CustomSliverAppBarState extends State<_CustomSliverAppBar> {
               borderSide: BorderSide(color: Colors.black),
             ),
           ),
+          onChanged: (newTitle) {
+            setState(() {
+              newTitulo.actualizacion(_textFieldTitulo.text);
+            });
+          },
         ),
         titlePadding: const EdgeInsets.only(left: 10, right: 20, bottom: 30),
         background: Stack(

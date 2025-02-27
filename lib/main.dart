@@ -3,6 +3,7 @@ import 'package:globo/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:globo/providers/new_titulo.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'providers/favoritos_provider.dart';
@@ -18,8 +19,14 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => FavoritosProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => NewTitulo()), // Proveedor para el título
+        ChangeNotifierProvider(
+            create: (_) =>
+                FavoritosProvider()), // Otro proveedor (ejemplo para otro estado)
+      ],
       child: const MyApp(),
     ),
   );
