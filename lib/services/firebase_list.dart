@@ -1,4 +1,3 @@
-import 'package:globo/Screens/Screens_View/unidades_economicas.dart';
 import 'package:globo/Screens/Screens_View/unidades_screen.dart';
 import 'package:globo/widget/interfaz_decoration_vertical.dart';
 import 'package:firebase_database/firebase_database.dart';

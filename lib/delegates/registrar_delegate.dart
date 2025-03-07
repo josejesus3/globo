@@ -1,5 +1,4 @@
 import 'package:globo/Screens/Screens_View/registro_screen.dart';
-import 'package:globo/Screens/Screens_View/registro_unidad_economica.dart';
 import 'package:globo/login/login.dart';
 import 'package:globo/widget/interfaz_decoration_vertical.dart';
 import 'package:firebase_database/firebase_database.dart';

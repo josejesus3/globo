@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:globo/widget/fullscreen_view.dart';
 
 class GaleriaCarrusel extends StatelessWidget {
@@ -9,8 +8,63 @@ class GaleriaCarrusel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CarouselController carouselController = CarouselController();
+    final shrink = 200.0;
     final sized = MediaQuery.of(context).size;
-    return CarouselSlider(
+
+    return CarouselView.weighted(
+      controller: carouselController,
+      flexWeights: [1, 10, 1], // Ajusta los "pesos" de las páginas
+      shrinkExtent: shrink, // Controla el tamaño de la imagen
+      scrollDirection: Axis.horizontal, // Dirección de desplazamiento
+      onTap: (value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FullScreenImage(imageUrl: urls[value]),
+          ),
+        );
+      },
+      children: List.generate(
+        urls.length,
+        (index) {
+          return Image.network(
+            urls[index].trim(),
+            filterQuality: FilterQuality.high,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
+              final totalByte = loadingProgress.expectedTotalBytes ?? 1;
+              final loadedBytes = loadingProgress.cumulativeBytesLoaded;
+              final progress = loadedBytes / totalByte;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    value: progress,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text('${(progress * 100).toStringAsFixed(0)}%')
+                ],
+              );
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Text("Falla en cargar imagen"),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*CarouselSlider(
       options: CarouselOptions(
         height: sized.height * 0.7,
         enlargeCenterPage: true,
@@ -22,6 +76,7 @@ class GaleriaCarrusel extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 // Aquí, cambiamos la navegación para asegurarnos de que no haya problemas de estado
+                print(url);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -51,6 +106,4 @@ class GaleriaCarrusel extends StatelessWidget {
           },
         );
       }).toList(),
-    );
-  }
-}
+    );*/

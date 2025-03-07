@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-class FullScreenImage extends StatelessWidget {
+class FullScreenImage extends StatefulWidget {
   final String imageUrl;
 
   const FullScreenImage({super.key, required this.imageUrl});
 
+  @override
+  State<FullScreenImage> createState() => _FullScreenImageState();
+}
+
+class _FullScreenImageState extends State<FullScreenImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +20,7 @@ class FullScreenImage extends StatelessWidget {
         },
         child: Center(
           child: Image.network(
-            imageUrl,
+            widget.imageUrl,
             fit: BoxFit.contain, // Ajuste para que la imagen no se recorte
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress != null) {

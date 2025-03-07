@@ -27,33 +27,9 @@ class _ContenidoState extends State<Contenido> {
   void initState() {
     super.initState();
     favoritosProvider = context.read<FavoritosProvider>();
-    _cargarUnidadesFavoritas();
-    _cargarFavoritas();
-  }
-
-  void _cargarUnidadesFavoritas() async {
-    // Obtén la lista de unidades favoritas del FavoritosProvider
-    unidadesFavoritas = favoritosProvider.favoritos;
-  }
-
-  void _cargarFavoritas() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Obtén la lista de unidades favoritas del SharedPreferences
-    List<String>? storedFavoritos = prefs.getStringList('favoritos');
-
-    if (storedFavoritos != null) {
-      setState(() {
-        unidadesFavoritas = storedFavoritos;
-      });
-    }
   }
 
   // Función para guardar la lista en SharedPreferences
-  void _guardarUnidadesFavoritas(List<String> favoritos) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('favoritos', favoritos);
-  }
 
   @override
   Widget build(BuildContext context) {
